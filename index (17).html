@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Missão Zêzere — Desafio das Águas</title>
+<style>
+:root{--navy:#092a59;--blue:#078bd0;--aqua:#a8f0f0;--gold:#ffd34e;--green:#146b59;--ink:#102b50}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:radial-gradient(circle at 15% 10%,#d5fbff 0,#a5dff3 28%,#147cb3 70%,#073a70 100%);min-height:100vh;padding:24px 14px 40px}
+.wrap{max-width:980px;margin:auto}
+.hero{position:relative;overflow:hidden;border:3px solid rgba(255,255,255,.8);border-radius:28px;padding:28px 24px 24px;background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(205,245,255,.88));box-shadow:0 14px 0 rgba(3,42,86,.22),0 22px 45px rgba(0,24,62,.25);text-align:center}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.45);filter:blur(1px);pointer-events:none}
+.hero:before{width:190px;height:190px;left:-55px;top:-85px}.hero:after{width:230px;height:230px;right:-70px;bottom:-140px}
+.kicker{font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#087eb4;font-size:.78rem}
+h1{font-size:clamp(2rem,5vw,3.3rem);line-height:1.04;margin:10px 0;color:var(--navy);text-shadow:0 2px 0 #fff,0 5px 0 #b9e7f5}
+.subtitle{font-size:1.08rem;line-height:1.5;margin:0 auto;max-width:680px}
+.badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.badge3d{padding:9px 14px;border-radius:999px;background:linear-gradient(#fff,#d5f6ff);border:1px solid #75c9e7;box-shadow:0 4px 0 #5baac8;color:#08376b;font-weight:800}
+.progressbox{margin:22px 0 16px;background:rgba(255,255,255,.9);padding:14px 16px;border-radius:18px;box-shadow:0 5px 0 rgba(5,50,91,.18)}
+.progressline{height:12px;background:#d8edf6;border-radius:20px;overflow:hidden;margin-top:9px}
+.progressfill{height:100%;width:0;background:linear-gradient(90deg,#00a5d9,#27c9a9,#ffd34e);border-radius:20px;transition:width .35s}
+.card{background:linear-gradient(145deg,#fff,#e8faff);border:2px solid rgba(255,255,255,.95);border-radius:25px;padding:clamp(18px,4vw,30px);box-shadow:0 10px 0 rgba(2,49,90,.22),0 18px 34px rgba(0,27,61,.22);transform:perspective(900px) rotateX(0deg);transition:transform .25s}
+.panel-title{text-align:center;font-size:clamp(1.7rem,4vw,2.6rem);line-height:1.12;color:var(--navy);margin:0 0 22px;text-shadow:0 2px 0 #fff,0 4px 0 #b9e7f5}
+.qtop{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.pill{background:#e1f8ff;border:1px solid #8ed8ed;border-radius:999px;padding:7px 12px;font-size:.85rem;font-weight:800;color:#08628f}
+h2{font-size:clamp(1.25rem,3vw,1.8rem);line-height:1.25;color:var(--navy);margin:18px 0}
+.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0}
+.answer{cursor:pointer;text-align:left;font:inherit;font-weight:750;color:#11345e;background:linear-gradient(145deg,#fff,#dff6ff);border:2px solid #9bd7eb;border-radius:17px;padding:15px 16px;min-height:68px;box-shadow:0 5px 0 #83c2d8,0 8px 14px #0b4e7620;transition:transform .15s,box-shadow .15s,border-color .15s}
+.answer:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 8px 0 #83c2d8,0 12px 18px #0b4e7628}
+.answer:active:not(:disabled){transform:translateY(2px);box-shadow:0 2px 0 #83c2d8}
+.answer:disabled{cursor:default}
+.answer.correct{background:linear-gradient(145deg,#e4fff2,#b6f1d4);border-color:#1ca875;box-shadow:0 5px 0 #47b98b}
+.answer.wrong{background:linear-gradient(145deg,#fff0ee,#ffd6d1);border-color:#e36d63;box-shadow:0 5px 0 #dc938b}
+.feedback{display:none;padding:13px 16px;border-radius:15px;font-weight:700;line-height:1.45;margin:10px 0}
+.feedback.show{display:block;animation:pop .25s ease-out}
+.feedback.good{background:#dcfff0;border:1px solid #6bcba2;color:#075b3e}.feedback.bad{background:#fff0e8;border:1px solid #f0a47d;color:#833b16}
+.controls{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-top:18px;flex-wrap:wrap}
+button.primary{border:0;cursor:pointer;border-radius:15px;padding:13px 20px;font-weight:900;font-size:1rem;color:white;background:linear-gradient(145deg,#078fd0,#0756a1);box-shadow:0 5px 0 #073c79,0 9px 15px #052b602c;transition:transform .15s}
+button.primary:hover{transform:translateY(-2px)}button.primary:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.secondary{border:2px solid #91d4e7;background:#fff;color:#07568d;border-radius:14px;padding:11px 15px;font-weight:800;cursor:pointer}
+.small{font-size:.88rem;color:#3b6281}
+.result{display:none;text-align:center;padding:25px 15px}
+.result.show{display:block;animation:pop .35s ease-out}
+.bigscore{font-size:clamp(3rem,9vw,5.5rem);font-weight:1000;color:#087ab1;text-shadow:0 4px 0 #b9e9f5;margin:12px 0}
+.result h2{margin-bottom:6px}
+.hidden{display:none!important}
+@keyframes pop{from{transform:scale(.97);opacity:.3}to{transform:scale(1);opacity:1}}
+@media(max-width:620px){.answers{grid-template-columns:1fr}.hero{padding:23px 16px}.controls{align-items:stretch}.controls button{flex:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="progressbox" id="progressbox">
+<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><strong id="progressText">Pergunta 1 de 10</strong><strong id="scoreText">⭐ Pontos: 0</strong></div>
+<div class="progressline"><div class="progressfill" id="progressFill"></div></div>
+</div>
+<section class="card" id="quizCard">
+<h1 class="panel-title">🌊 Missão Zêzere — Desafio das Águas 🐟</h1>
+<div class="qtop"><span class="pill" id="category">❄️ Águas frias e agitadas</span><span class="pill" id="qnumber">1 / 10</span></div>
+<h2 id="question">A carregar pergunta…</h2>
+<div class="answers" id="answers"></div>
+<div class="feedback" id="feedback" aria-live="polite"></div>
+<div class="controls"><span class="small" id="hint">Escolhe a resposta que consideras correta.</span><button class="primary" id="nextBtn" disabled>Próxima pergunta →</button></div>
+</section>
+<section class="card result" id="result">
+<div style="font-size:3.2rem">🏆</div><h2 id="resultTitle">Missão concluída!</h2>
+<div class="bigscore" id="finalScore">0/10</div><p id="resultText"></p>
+<p class="small">Lembra-te: cada espécie precisa de condições adequadas ao seu modo de vida. As imagens são uma representação educativa dos habitats.</p>
+<button class="primary" id="restartBtn">🔄 Jogar novamente</button>
+</section>
+</div>
+<script>
+const questions = [
+ {cat:"❄️ Águas frias e agitadas",q:"Que conjunto de condições caracteriza a primeira imagem?",a:["Água mais fria, corrente forte e geralmente mais oxigénio dissolvido","Água parada, muito quente e sem movimento","Água sempre turva e sem vida"],c:0,why:"A água em movimento pode favorecer a oxigenação. A temperatura e a corrente influenciam quais os animais capazes de viver neste habitat."},
+ {cat:"❄️ Águas frias e agitadas",q:"Qual destes animais encontramos nas águas frias e correntes do Zêzere?",a:["Carpa-comum","Truta-do-rio","Achigã"],c:1,why:"A truta-do-rio está associada a águas mais frias, bem oxigenadas e com corrente."},
+ {cat:"❄️ Águas frias e agitadas",q:"Que dois anfíbios podemos encontrar nas águas frias?",a:["Rã-verde e cágado-comum","Salamandra-lusitânica e tritão-marmorado","Lontra-europeia e garça-real"],c:1,why:"Na imagem, a salamandra-lusitânica e o tritão-marmorado aparecem associados à zona de água fria. A salamandra-lusitânica depende sobretudo de pequenos cursos de água limpos e bem oxigenados."},
+ {cat:"🌡️ Temperatura e oxigénio",q:"O que pode acontecer quando a água aquece demasiado?",a:["O oxigénio dissolvido tende a diminuir","A água passa sempre a ter mais oxigénio","Todos os animais crescem mais depressa"],c:0,why:"Em geral, a água mais quente consegue manter menos oxigénio dissolvido, o que pode dificultar a vida de algumas espécies."},
+ {cat:"☀️ Águas calmas de albufeira",q:"Qual destas espécies podemos encontrar numa albufeira?",a:["Salamandra-lusitânica","Truta-do-rio","Carpa-comum"],c:2,why:"A carpa-comum está representada na zona de águas calmas da albufeira."},
+ {cat:"☀️ Águas calmas de albufeira",q:"Que espécie comprida, com corpo serpentiforme, aparece na imagem das águas mais quentes e calmas?",a:["Enguia-europeia","Boga","Perca-sol"],c:0,why:"A enguia-europeia tem um corpo alongado, semelhante ao de uma serpente."},
+ {cat:"🔎 Compara os habitats",q:"Porque é que as rochas e as raízes submersas são importantes para os animais?",a:["Servem apenas para decorar o rio","Podem oferecer abrigo e proteção","Impedem toda a passagem da água"],c:1,why:"Os abrigos ajudam os animais a esconder-se, descansar e, em alguns casos, proteger-se dos predadores."},
+ {cat:"🌍 Observa e conclui",q:"Qual é a melhor conclusão sobre os habitats do Zêzere?",a:["Todas as espécies preferem exatamente as mesmas condições","A corrente, a temperatura, o oxigénio e os abrigos influenciam a distribuição dos animais, ao longo do rio.","Só existe vida nas albufeiras"],c:1,why:"Cada espécie tem necessidades próprias. As condições do habitat influenciam onde consegue viver e alimentar-se."}
+];
+let index=0, score=0, answered=false;
+const $=id=>document.getElementById(id);
+function render(){
+ answered=false;
+ const q=questions[index];
+ $("category").textContent=q.cat;$("qnumber").textContent=(index+1)+" / "+questions.length;
+ $("progressText").textContent="Pergunta "+(index+1)+" de "+questions.length;
+ $("scoreText").textContent="⭐ Pontos: "+score;
+ $("progressFill").style.width=(index/questions.length*100)+"%";
+ $("question").textContent=q.q;$("answers").innerHTML="";
+ $("feedback").className="feedback";$("feedback").textContent="";
+ $("hint").textContent="Escolhe a resposta que consideras correta.";
+ $("nextBtn").disabled=true;$("nextBtn").textContent=index===questions.length-1?"Ver resultado 🏆":"Próxima pergunta →";
+ q.a.forEach((answer,i)=>{const b=document.createElement("button");b.className="answer";b.textContent=String.fromCharCode(65+i)+". "+answer;b.onclick=()=>choose(i,b);$("answers").appendChild(b)});
+}
+function choose(choice,button){
+ if(answered)return;answered=true;
+ const q=questions[index];const buttons=[...$("answers").querySelectorAll("button")];
+ buttons.forEach((b,i)=>{b.disabled=true;if(i===q.c)b.classList.add("correct")});
+ const fb=$("feedback");
+ if(choice===q.c){score++;fb.className="feedback show good";fb.textContent="✅ Muito bem! "+q.why}
+ else{button.classList.add("wrong");fb.className="feedback show bad";fb.textContent="💡 Ainda não! A resposta correta é: "+q.a[q.c]+". "+q.why}
+ $("scoreText").textContent="⭐ Pontos: "+score;$("nextBtn").disabled=false;$("hint").textContent="Resposta registada.";
+}
+$("nextBtn").onclick=()=>{if(!answered)return;if(index<questions.length-1){index++;render()}else finish()};
+function finish(){
+ $("quizCard").classList.add("hidden");$("progressbox").classList.add("hidden");$("result").classList.add("show");$("progressFill").style.width="100%";$("finalScore").textContent=score+"/"+questions.length;
+ let title,txt;if(score>=9){title="🌟 Especialista do Zêzere!";txt="Excelente! Observaste muito bem as diferenças entre os habitats e as espécies."}else if(score>=7){title="🐟 Grande explorador!";txt="Muito bom! Já conheces bem várias espécies e as condições de que precisam."}else if(score>=5){title="🌊 Bom trabalho!";txt="Estás no caminho certo. Volta a observar as imagens e tenta novamente."}else{title="🧭 A missão continua!";txt="Não desistas! Revê as diferenças entre águas frias e correntes e águas calmas de albufeira e volta a jogar."}
+ $("resultTitle").textContent=title;$("resultText").textContent=txt;
+}
+$("restartBtn").onclick=()=>{index=0;score=0;$("result").classList.remove("show");$("quizCard").classList.remove("hidden");$("progressbox").classList.remove("hidden");render()};
+render();
+</script>
+</body>
+</html>
